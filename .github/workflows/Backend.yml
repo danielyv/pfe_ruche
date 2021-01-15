@@ -1,0 +1,25 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ back ]
+  pull_request:
+    branches: [ back ]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: docker login
+      env:
+        AZURE_REGISTERY_USER: ${{secrets.AZURE_REGISTERY_PASSWORD}} 
+        AZURE_REGISTERY_PASSWORD: ${{secrets.AZURE_REGISTERY_PASSWORD}}
+        AZURE_REGISTERY_URL: ${{secrets.AZURE_REGISTERY_URL}}
+      run: docker login $AZURE_REGISTERY_URL -u $AZURE_REGISTERY_USER -p $AZURE_REGISTERY_PASSWORD
+    - name: docker build
+      run: docker build -t $AZURE_REGISTERY_URL/backend-Hive .
+    - name: docker push
+      run: docker push $AZURE_REGISTERY_URL/backend-Hive
