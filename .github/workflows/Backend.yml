@@ -13,13 +13,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: docker login
-      env:
-        AZURE_REGISTERY_USER: ${{secrets.AZURE_REGISTERY_PASSWORD}} 
-        AZURE_REGISTERY_PASSWORD: ${{secrets.AZURE_REGISTERY_PASSWORD}}
-        AZURE_REGISTERY_URL: ${{secrets.AZURE_REGISTERY_URL}}
-      run: docker login $AZURE_REGISTERY_URL -u $AZURE_REGISTERY_USER -p $AZURE_REGISTERY_PASSWORD
-    - name: docker build
-      run: docker build -t $AZURE_REGISTERY_URL/backend-Hive .
-    - name: docker push
-      run: docker push $AZURE_REGISTERY_URL/backend-Hive
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: 'Build and push image'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - name: 'Docker build'
+      run: docker build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/backend-Hive:${{ github.sha }} .
+    - name: 'Docker push'
+      run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/backend-Hive:${{ github.sha }}
