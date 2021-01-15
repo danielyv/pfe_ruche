@@ -12,12 +12,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v2
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: 'Build and push image'
+    - name: 'Docker login'
       uses: azure/docker-login@v1
       with:
         login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
