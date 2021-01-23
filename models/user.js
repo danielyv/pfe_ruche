@@ -20,12 +20,19 @@ var User = new Schema({
    googleId:{
      type:String,
      default:''
+   },
+   username:{
+     type:String,
+     required:true
    }, 
     admin:   {
         type: Boolean,
         default: false
-    }
-    
+    },
+    ruche:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Ruche'
+    }]
 });
 
 User.plugin(passportLocalMongoose);
