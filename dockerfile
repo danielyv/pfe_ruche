@@ -13,7 +13,7 @@ RUN npm ci --only-production
 COPY ./ ./
 
 # Expose the port, on which your application is running
-EXPOSE 4000
+EXPOSE 80
 
 # Run the code
 CMD [ "node", "./bin/www" ]

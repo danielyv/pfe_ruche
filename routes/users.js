@@ -8,8 +8,8 @@ const cors = require('./cors');
 
 router.use(bodyParser.json());
 router.route('/signup')
-.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-.post(cors.cors,(req, res, next) => {
+.options( (req, res) => { res.sendStatus(200); })
+.post((req, res, next) => {
   User.register(new User({username: req.body.username}), 
     req.body.password, (err, user) => {
     if(err) {
@@ -41,8 +41,8 @@ router.route('/signup')
 
 
 router.route('/login')
-.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-.post(cors.cors,passport.authenticate('local'), (req, res) => {
+.options( (req, res) => { res.sendStatus(200); })
+.post(passport.authenticate('local'), (req, res) => {
   var token = authenticate.getToken({_id: req.user._id});
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
@@ -72,8 +72,8 @@ router.route('/facebook/token')
 
 
 router.route('/logout')
-.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-.get(cors.cors,(req, res) => {
+.options( (req, res) => { res.sendStatus(200); })
+.get((req, res) => {
   if (req.session) {
     req.session.destroy();
     res.clearCookie('session-id');
@@ -88,8 +88,8 @@ router.route('/logout')
 
 /* GET users listing. */
 router.route('/')
-.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-.get(cors.cors,authenticate.verifyUser,authenticate.verifyAdmin, function(req, res, next) {
+.options( (req, res) => { res.sendStatus(200); })
+.get(authenticate.verifyUser,authenticate.verifyAdmin, function(req, res, next) {
   User.find({})
   .then((user) => {
       res.statusCode = 200;
@@ -97,22 +97,22 @@ router.route('/')
       res.json(user);
   }, (err) => next(err))
   .catch((err) => next(err));})
-.post(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
+.post(authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
     res.statusCode = 403;
     res.end('POST operation not supported on /user');
 })
-.put(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
+.put(authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /user');
 })
-.delete(cors.corsWithOptions,authenticate.verifyUser||authenticate.verifyAdmin,(req, res, next) => {
+.delete(authenticate.verifyUser||authenticate.verifyAdmin,(req, res, next) => {
     res.statusCode = 403;
     res.end('DELETE operation not supported on /user');  
 });
 
 router.route('/:userId')
-.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-.get(cors.cors,authenticate.verifyUser, (req,res,next) => {
+.options( (req, res) => { res.sendStatus(200); })
+.get(authenticate.verifyUser, (req,res,next) => {
     User.findById(req.params.userId)
     .populate('ruche')
     .then((user) => {
@@ -122,22 +122,22 @@ router.route('/:userId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
+.post(authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
     res.statusCode = 403;
     res.end('POST operation not supported on /user/'+ req.params.userId);
 })
-.put(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
+.put(authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /user/'+ req.params.userId);
 })
-.delete(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
+.delete(authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
     res.statusCode = 403;
     res.end('DELETE operation not supported on /user/'+ req.params.userId);
 });
 
 router.route('/:userId/ruche')
-.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-.get(cors.cors, (req,res,next) => {
+.options( (req, res) => { res.sendStatus(200); })
+.get( (req,res,next) => {
     User.findById(req.params.userId)
     .populate('ruche')
     .then((user) => {
@@ -154,30 +154,30 @@ router.route('/:userId/ruche')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
+.post(authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end('POST operation not supported on /user/'+ req.params.userId
         + '/ruche/');
 })
-.put(cors.corsWithOptions,authenticate.verifyUser,(req, res, next) => {
+.put(authenticate.verifyUser,(req, res, next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /user/'
         + req.params.userId + '/ruche');
 })
-.delete(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
+.delete(authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
     res.statusCode = 403;
     res.end('DELETE operation not supported on /user/'
         + req.params.userId + '/ruche');    
 });
 
 router.route('/:userId/ruche/:rucheId')
-.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-.get(cors.cors, (req,res,next) => {
+.options( (req, res) => { res.sendStatus(200); })
+.get( (req,res,next) => {
     res.statusCode = 403;
     res.end('GET operation not supported on /user/'+ req.params.userId
         + '/ruche/' + req.params.rucheId);
 })
-.post(cors.corsWithOptions,authenticate.verifyUser,(req, res, next) => {
+.post(authenticate.verifyUser,(req, res, next) => {
     User.findById(req.params.userId)
     .then((user) => {
         if (user != null) {
@@ -202,12 +202,12 @@ router.route('/:userId/ruche/:rucheId')
     .catch((err) => next(err));
     
 })
-.put(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
+.put(authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /user/'+ req.params.userId
         + '/ruche/' + req.params.rucheId);
 })
-.delete(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
     User.findById(req.params.userId)
     .then((user) => {
         if (user != null && user.ruche.id(req.params.rucheId) != null && (req.user.admin || req.user._id.equals(user._id))) {

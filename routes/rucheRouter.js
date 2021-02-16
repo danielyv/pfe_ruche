@@ -11,8 +11,8 @@ const rucheRouter = express.Router();
 rucheRouter.use(bodyParser.json());
 
 rucheRouter.route('/')
-    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-    .get(cors.cors, (req, res, next) => {
+    .options( (req, res) => { res.sendStatus(200); })
+    .get( (req, res, next) => {
         Ruche.find({})
             .populate('records')
             .then((ruche) => {
@@ -22,7 +22,7 @@ rucheRouter.route('/')
             }, (err) => next(err))
             .catch((err) => next(err));
     })
-    .post(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    .post( authenticate.verifyUser,  (req, res, next) => {
         Ruche.create(req.body)
             .then((ruche) => {
                 console.log('Ruche Created ', ruche);
@@ -32,11 +32,11 @@ rucheRouter.route('/')
             }, (err) => next(err))
             .catch((err) => next(err));
     })
-    .put(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    .put( authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         res.statusCode = 403;
         res.end('PUT operation not supported on /ruche');
     })
-    .delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    .delete( authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         Ruche.remove({})
             .then((resp) => {
                 res.statusCode = 200;
@@ -47,8 +47,8 @@ rucheRouter.route('/')
     });
 
 rucheRouter.route('/:rucheId')
-    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-    .get(cors.cors, (req, res, next) => {
+    .options( (req, res) => { res.sendStatus(200); })
+    .get( (req, res, next) => {
         Ruche.findById(req.params.rucheId)
             .populate('records')
             .then((ruche) => {
@@ -58,15 +58,15 @@ rucheRouter.route('/:rucheId')
             }, (err) => next(err))
             .catch((err) => next(err));
     })
-    .post(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    .post( authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         res.statusCode = 403;
         res.end('POST operation not supported on /ruche/' + req.params.rucheId);
     })
-    .put(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    .put( authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         res.statusCode = 403;
         res.end('PUT operation not supported on /ruche/' + req.params.rucheId);
     })
-    .delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    .delete( authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         Ruche.findByIdAndRemove(req.params.rucheId)
             .then((resp) => {
                 res.statusCode = 200;
@@ -77,8 +77,8 @@ rucheRouter.route('/:rucheId')
     });
 
 rucheRouter.route('/:rucheId/records')
-    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-    .get(cors.cors, (req, res, next) => {
+    .options( (req, res) => { res.sendStatus(200); })
+    .get( (req, res, next) => {
         Ruche.findById(req.params.rucheId)
             .populate('records')
             .then((ruche) => {
@@ -95,7 +95,7 @@ rucheRouter.route('/:rucheId/records')
             }, (err) => next(err))
             .catch((err) => next(err));
     })
-    .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+    .post( authenticate.verifyUser, (req, res, next) => {
         Record.create(req.body)
             .then((record) => {
                 Ruche.findById(req.params.rucheId)
@@ -123,20 +123,20 @@ rucheRouter.route('/:rucheId/records')
             },(err)=>next(err)).catch((err)=>next(err));
 
     })
-    .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+    .put( authenticate.verifyUser, (req, res, next) => {
         res.statusCode = 403;
         res.end('PUT operation not supported on /ruche/'
             + req.params.rucheId + '/records');
     })
-    .delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    .delete( authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         res.statusCode = 403;
         res.end('DELETE operation not supported on /ruche/'
             + req.params.rucheId + '/records');
     });
 
 rucheRouter.route('/:rucheId/records/:recordId')
-    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-    .get(cors.cors, (req, res, next) => {
+    .options( (req, res) => { res.sendStatus(200); })
+    .get( (req, res, next) => {
         Ruche.findById(req.params.rucheId)
             .populate('records')
             .then((ruche) => {
@@ -158,17 +158,17 @@ rucheRouter.route('/:rucheId/records/:recordId')
             }, (err) => next(err))
             .catch((err) => next(err));
     })
-    .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+    .post( authenticate.verifyUser, (req, res, next) => {
         res.statusCode = 403;
         res.end('POST operation not supported on /ruche/' + req.params.rucheId
             + '/records/' + req.params.recordId);
     })
-    .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+    .put( authenticate.verifyUser, (req, res, next) => {
         res.statusCode = 403;
         res.end('PUT operation not supported on /ruche/' + req.params.rucheId
             + '/records/' + req.params.recordId);
     })
-    .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+    .delete( authenticate.verifyUser, (req, res, next) => {
         Ruche.findById(req.params.rucheId)
             .then((ruche) => {
                 if (ruche != null && ruche.records.id(req.params.recordId) != null) {

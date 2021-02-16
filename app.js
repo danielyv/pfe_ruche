@@ -10,12 +10,13 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const authenticate = require('./authenticate');
 const config = require('./config');
+const cors = require('cors');
 
 
 const connect = mongoose.connect(config.mongoUrl);
 const app = express();
 
-
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
