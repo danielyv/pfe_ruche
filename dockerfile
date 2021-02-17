@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package.json /app
 RUN npm install
 COPY . .
-RUN ng build --prod
+RUN node_modules/.bin/ng build --prod
 # Stage 2
 FROM nginx:1.17.1-alpine
 COPY --from=builder /app/dist/pfe_ruche /usr/share/nginx/html

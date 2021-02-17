@@ -24,6 +24,7 @@
     "@angular/router": "~11.2.0",
     "@swimlane/ngx-charts": "^17.0.0",
     "angular-bootstrap-md": "^10.1.1",
+    "angular-cli": "^1.0.0-beta.28.3",
     "chart.js": "^2.9.4",
     "jwt-decode": "^3.1.2",
     "mdbootstrap": "^4.19.2",
