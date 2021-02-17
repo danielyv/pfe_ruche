@@ -1,0 +1,38 @@
+
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button *ngIf="isLogged">
+      <mat-icon (click)="sidenav.toggle();isMenuOpen=!isMenuOpen;">{{ isMenuOpen ? 'menu_open' : 'menu' }}</mat-icon>
+    </button>
+    <div fxFlex fxFlex.gt-sm="85%">
+      <h1>Hiv-e</h1>
+    </div>
+    <div fxFlex fxFlex.gt-sm="15%">
+      <a mat-button routerLink="/login" *ngIf="!isLogged" routerLinkActive="active"><span
+          class="fa fa-home fa-lg"></span> Login</a>
+      <a mat-button routerLink="/signup" *ngIf="!isLogged" routerLinkActive="active"><span
+          class="fa fa-home fa-lg"></span> Signup</a>
+      <a mat-button routerLink="/" role='button' *ngIf="isLogged" (click)="userService.logout()"
+        routerLinkActive="active"><span class="fa fa-home fa-lg"></span>Logout</a>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="'/ruche'">
+        <mat-icon>list</mat-icon>Ruche liste
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div>
+      <mat-grid-list cols="1" rows="1" rowHeight="95.19vh"
+        style="background-image: url(https://www.miels-de-provence.com/images/apiculteurs/background_2.jpg);background-position: center;background-repeat: no-repeat;background-size: cover;overflow-y:hidden;">
+        <mat-grid-tile>
+          <router-outlet></router-outlet>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,1 @@
+export const baseURL = 'http://backend.francecentral.azurecontainer.io/';

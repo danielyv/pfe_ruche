@@ -1,0 +1,77 @@
+<mat-card>
+    <mat-card-title>Benchmark de la ruche {{id}}</mat-card-title>
+    <mat-card-content>
+
+        <mat-grid-list cols="6" rowHeight="1:2" style="width: 70vw;">
+            <mat-grid-tile colspan='3'>
+                <mat-card>
+                    <mat-card-title>Humiditée</mat-card-title>
+                    <mat-card-content>
+                        <canvas *ngIf="myhive" mdbChart
+      [chartType]="chartType"
+      [datasets]="[humiditySeries]"
+      [labels]="timeSeries.data"
+      [colors]="chartColors"
+      [options]="chartOptions"
+      [legend]="true"
+      (chartHover)="chartHovered($event)"
+      (chartClick)="chartClicked($event)">
+  </canvas>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+            <mat-grid-tile colspan='3'>
+                <mat-card>
+                    <mat-card-title>Température</mat-card-title>
+                    <mat-card-content>
+                        <canvas *ngIf="myhive" mdbChart
+      [chartType]="chartType"
+      [datasets]="[tempSeries]"
+      [labels]="timeSeries.data"
+      [colors]="chartColors"
+      [options]="chartOptions"
+      [legend]="true"
+      (chartHover)="chartHovered($event)"
+      (chartClick)="chartClicked($event)">
+  </canvas>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+            <mat-grid-tile colspan='3'>
+                <mat-card>
+                    <mat-card-title>Poid</mat-card-title>
+                    <mat-card-content>
+                        <canvas *ngIf="myhive" mdbChart
+      [chartType]="chartType"
+      [datasets]="[weigthSeries]"
+      [labels]="timeSeries.data"
+      [colors]="chartColors"
+      [options]="chartOptions"
+      [legend]="true"
+      (chartHover)="chartHovered($event)"
+      (chartClick)="chartClicked($event)">
+  </canvas>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+            <mat-grid-tile colspan='3'>
+                <mat-card>
+                    <mat-card-title>Flux</mat-card-title>
+                    <mat-card-content>
+                        <canvas *ngIf="myhive" mdbChart
+      [chartType]="bar"
+      [datasets]="[fluxSeries]"
+      [labels]="timeSeries.data"
+      [colors]="chartColors"
+      [options]="chartOptions"
+      [legend]="true"
+      (chartHover)="chartHovered($event)"
+      (chartClick)="chartClicked($event)">
+  </canvas>
+                    </mat-card-content>>
+                </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <!--{{myhive|json}}-->
+    </mat-card-content>
+</mat-card>
