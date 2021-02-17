@@ -6,5 +6,5 @@ COPY . .
 RUN node_modules/.bin/ng build --prod
 # Stage 2
 FROM nginx:1.17.1-alpine
-COPY --from=builder /app/dist/pfe_ruche /usr/share/nginx/html
+COPY --from=builder /app/dist/pferuche /usr/share/nginx/html
 EXPOSE 80
